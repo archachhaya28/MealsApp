@@ -61,4 +61,6 @@ dependencies {
 
     //Retrofit
     implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.convertor.gson)
 }
