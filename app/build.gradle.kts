@@ -66,4 +66,8 @@ dependencies {
 
     // image loading with Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp) // to fetch images form network
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
 }

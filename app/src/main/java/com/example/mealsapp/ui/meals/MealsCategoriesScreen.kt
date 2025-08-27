@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +41,7 @@ import com.example.mealsapp.ui.theme.MealsAppTheme
  * Created by Archa Chhaya on 26/8/2025
  */
 @Composable
-fun MealsCategoriesScreen() {
+fun MealsCategoriesScreen(navigationCallBack: (String) -> Unit) {
     val viewModel: MealsCategoriesViewModel = viewModel()
     val meals = viewModel.mealsState.value
 
@@ -61,24 +60,28 @@ fun MealsCategoriesScreen() {
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         items(meals) { meals ->
-            MealsCategory(meals)
+            MealsCategory(meals, navigationCallBack)
         }
     }
 }
 
 @Composable
-fun MealsCategory(meals: MealsResponse) {
+fun MealsCategory(meals: MealsResponse, navigationCallBack: (String) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) }
     Card(
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .clickable {
+                navigationCallBack(meals.id)
+            }
     ) {
         // Modifier.animateContentSize() is to display the smooth animation
         Row(modifier = Modifier.animateContentSize()) {
             AsyncImage(
                 model = meals.imageUrl,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(80.dp)
                     .align(Alignment.CenterVertically)
@@ -122,6 +125,6 @@ fun MealsCategory(meals: MealsResponse) {
 @Composable
 fun DefaultPreview() {
     MealsAppTheme {
-        MealsCategoriesScreen()
+      //  MealsCategoriesScreen()
     }
 }
